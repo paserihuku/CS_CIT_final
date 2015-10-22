@@ -124,26 +124,26 @@ void showboard(int **board)
 
 void widthjudge(int **board, int i, int j, int pawn)
 {
-  int connect=0;
+  int connect=1;
   //右
-  int x=i;
+  int x=i+1;
   while(x<i+4){
     if(board[x][j]==pawn)
       connect++;
-    x++;
-    if(x>=m-1) break;
     if(connect>=win)
       winplayer(pawn);
+    x++;
+    if(x>m-1) break;
   }
   //左
-  x=i;
+  x=i-1;
   while(x>i-4) {
     if(board[x][j]==pawn)
       connect++;
+    if(connect>=win)
+      winplayer(pawn);
     x--;
-    if(x<=0) break;
-  if(connect>=win)
-    winplayer(pawn);
+    if(x<0) break;
   }
   return;
 }
@@ -151,16 +151,16 @@ void widthjudge(int **board, int i, int j, int pawn)
 
 void heightjudge(int **board, int i, int j, int pawn)
 {
-  int connect=0;
+  int connect=1;
   //下
-  int y=j;
+  int y=j+1;
   while(y<j+4){
     if(board[i][y]==pawn)
       connect++;
-    y++;
-    if(y>=m-1) break;
     if(connect>=win)
       winplayer(pawn);
+    y++;
+    if(y>m-1) break;
   }
   return;
 }
@@ -168,30 +168,30 @@ void heightjudge(int **board, int i, int j, int pawn)
 
 void Soaring(int **board, int i, int j, int pawn)
 {
-  int connect=0;
+  int connect=1;
   //右上
-  int x=i;
-  int y=j;
+  int x=i+1;
+  int y=j+1;
   while(x<i+4){
     if(board[x][j]==pawn)
       connect++;
-    x++;
-    j++;
-    if(x>=m-1 || y>=m-1) break;
     if(connect>=win)
       winplayer(pawn);
+    x++;
+    j++;
+    if(x>m-1 || y>m-1) break;
   }
   //左下
-  x=i;
-  y=j;
+  x=i-1;
+  y=j-1;
   while(x>i-4) {
     if(board[x][j]==pawn)
       connect++;
-    x--;
-    y--;
-    if(x<=0 || y<=0) break;
     if(connect>=win)
       winplayer(pawn);
+    x--;
+    y--;
+    if(x<0 || y<0) break;
   }
   return;
 }
@@ -199,30 +199,30 @@ void Soaring(int **board, int i, int j, int pawn)
 
 void unSoaring(int **board, int i, int j, int pawn)
 {
-  int connect=0;
+  int connect=1;
   //右下
-  int x=i;
-  int y=j;
+  int x=i+1;
+  int y=j-1;
   while(x<i+4){
     if(board[x][j]==pawn)
       connect++;
-    x++;
-    y--;
-    if(x>=m-1 || y<=0) break;
     if(connect>=win)
       winplayer(pawn);
+    x++;
+    y--;
+    if(x>m-1 || y<0) break;
   }
   //左上
-  x=i;
-  y=j;
+  x=i-1;
+  y=j+1;
   while(x>i-4) {
     if(board[x][j]==pawn)
       connect++;
+    if(connect>=win)
+      winplayer(pawn);
     x--;
     y++;
     if(x<=0 || y>=m-1) break;
-  if(connect>=win)
-    winplayer(pawn);
   }
   return;
 }
