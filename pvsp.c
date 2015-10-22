@@ -10,7 +10,6 @@ void attack(int **board, int count_turn);
 int playerturn(void);
 int computer1turn(void);
 void showboard(int **board);
-void autojudge(int **board,int i,int j);
 void widthjudge(int **board, int i, int j ,int pawn);
 void heightjudge(int **board, int i, int j ,int pawn);
 void Soaring(int **board, int i, int j, int pawn);
@@ -76,6 +75,8 @@ void attack(int **board , int count_turn)
           board[x][j]=pawn;
           widthjudge(board ,x ,j ,pawn);
           heightjudge(board, x, j ,pawn);
+          Soaring(board ,x ,j ,pawn);
+          unSoaring(board ,x ,j ,pawn);
           return;
           }
         }
@@ -128,22 +129,22 @@ void widthjudge(int **board, int i, int j, int pawn)
   //右
   int x=i+1;
   while(x<i+4){
+    if(x>m-1) break;
     if(board[x][j]==pawn)
       connect++;
     if(connect>=win)
       winplayer(pawn);
     x++;
-    if(x>m-1) break;
   }
   //左
   x=i-1;
   while(x>i-4) {
+    if(x<0) break;
     if(board[x][j]==pawn)
       connect++;
     if(connect>=win)
       winplayer(pawn);
     x--;
-    if(x<0) break;
   }
   return;
 }
@@ -155,12 +156,12 @@ void heightjudge(int **board, int i, int j, int pawn)
   //下
   int y=j+1;
   while(y<j+4){
+    if(y>m-1) break;
     if(board[i][y]==pawn)
       connect++;
     if(connect>=win)
       winplayer(pawn);
     y++;
-    if(y>m-1) break;
   }
   return;
 }
@@ -173,25 +174,27 @@ void Soaring(int **board, int i, int j, int pawn)
   int x=i+1;
   int y=j+1;
   while(x<i+4){
-    if(board[x][j]==pawn)
+    if(x>m-1 || y>m-1) break;
+    if(board[x][y]==pawn)
       connect++;
     if(connect>=win)
       winplayer(pawn);
+      printf("(%d,%d),%d\n",x,y,connect);
     x++;
-    j++;
-    if(x>m-1 || y>m-1) break;
+    y++;
   }
   //左下
   x=i-1;
   y=j-1;
-  while(x>i-4) {
-    if(board[x][j]==pawn)
+  while(x>i-4){
+    if(x<0 || y<0) break;
+    if(board[x][y]==pawn)
       connect++;
     if(connect>=win)
       winplayer(pawn);
+      printf("(%d,%d),%d\n",x,y,connect);
     x--;
     y--;
-    if(x<0 || y<0) break;
   }
   return;
 }
@@ -204,25 +207,25 @@ void unSoaring(int **board, int i, int j, int pawn)
   int x=i+1;
   int y=j-1;
   while(x<i+4){
-    if(board[x][j]==pawn)
+    if(x>m-1 || y<0) break;
+    if(board[x][y]==pawn)
       connect++;
     if(connect>=win)
       winplayer(pawn);
     x++;
     y--;
-    if(x>m-1 || y<0) break;
   }
   //左上
   x=i-1;
   y=j+1;
   while(x>i-4) {
-    if(board[x][j]==pawn)
+    if(x<=0 || y>=m-1) break;
+    if(board[x][y]==pawn)
       connect++;
     if(connect>=win)
       winplayer(pawn);
     x--;
     y++;
-    if(x<=0 || y>=m-1) break;
   }
   return;
 }
